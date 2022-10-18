@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Edit Data</title>
+    <link rel="stylesheet" href="<?= base_url();?>design/css/style.css">
 </head>
 <body>
     <center>
