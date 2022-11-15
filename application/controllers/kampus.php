@@ -3,13 +3,19 @@ class Kampus extends CI_Controller{
 
     function __construct() {
         parent::__construct();
-        $this->load->model('m_data');
+
+        if($this->session->userdata('status') != "login") {
+                  redirect(base_url("login"));
+
+        }
+        
+        $this->load->model('M_data');
         $this->load->helper('url');
         $this->load->library('form_validation');
     }
 
     function index() {
-        $data['mahasiswa'] = $this->m_data->tampil_data()->result();
+        $data['mahasiswa'] = $this->M_data->tampil_data()->result();
         $this->load->view('tampil_data',$data);
     }
     
@@ -51,7 +57,7 @@ class Kampus extends CI_Controller{
             'pekerjaan' => $pekerjaan,
             'foto' => $foto
              );
-        $this->m_data->input_data($data, 'mahasiswa');
+        $this->M_data->input_data($data, 'mahasiswa');
         redirect ('kampus/index');
     }else{
         $this->load->view('input_data');
@@ -59,7 +65,7 @@ class Kampus extends CI_Controller{
 }
     function edit($id) {
             $where = array('id' => $id);
-            $data['mahasiswa'] = $this->m_data->edit_data($where, 'mahasiswa')->result();
+            $data['mahasiswa'] = $this->M_data->edit_data($where, 'mahasiswa')->result();
             $this->load->view('edit_data',$data);
     }
 
@@ -96,13 +102,13 @@ class Kampus extends CI_Controller{
                 'id' => $id
             );
 
-            $this->m_data->update_data($where,$data, 'mahasiswa');
+            $this->M_data->update_data($where,$data, 'mahasiswa');
             redirect('kampus/index');
         }    
               
     function hapus($id) {
         $where = array('id' => $id);
-        $this->m_data->hapus_data($where, 'mahasiswa');
+        $this->M_data->hapus_data($where, 'mahasiswa');
         redirect('kampus/index');
     }
 
